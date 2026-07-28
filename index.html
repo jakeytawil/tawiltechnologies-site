@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tawil Tech — Property management software</title>
+<meta name="description" content="Tawil Tech is a property management and accounting platform: automatic rent billing, AI invoice capture, online payments, bank reconciliation, and owner & tenant portals on a real double-entry ledger." />
+<meta property="og:title" content="Tawil Tech — Property management software" />
+<meta property="og:description" content="Property management and accounting on a real double-entry ledger." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230f7d66'/><text x='50' y='68' font-size='52' font-family='Georgia' font-weight='700' fill='white' text-anchor='middle'>T</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --canvas:#fbfcfa; --text:#18211d; --muted:#5f6b65; --subtle:#97a19b;
+  --green:#0f7d66; --green-dark:#0a5f4d; --green-tint:#e7f4ef;
+  --line:#e6eae5; --card-sh:0 1px 2px rgba(14,26,22,.05),0 10px 30px rgba(14,26,22,.07);
+  --ok:#15914f; --ok-bg:#e4f6ea;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;background:var(--canvas);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.015em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1020px;margin:0 auto;padding-left:24px;padding-right:24px}
+
+/* nav */
+nav{border-bottom:1px solid var(--line);background:var(--canvas)}
+.nav-in{display:flex;align-items:center;padding:18px 0}
+.logo{display:flex;align-items:center;gap:11px;font-family:'Fraunces',serif;font-weight:600;font-size:19px}
+.logo .mark{width:33px;height:33px;border-radius:9px;background:var(--green);display:grid;place-items:center;font-size:17px;color:#fff}
+.nav-in .sp{flex:1}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;font-family:inherit;font-weight:600;color:#fff;background:var(--green);border:none;border-radius:10px;cursor:pointer;transition:background .15s,transform .12s,box-shadow .15s}
+.btn:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 8px 22px rgba(15,125,102,.28)}
+.btn-nav{font-size:14.5px;padding:10px 20px}
+.btn-big{font-size:17px;padding:16px 38px;border-radius:12px;box-shadow:0 6px 20px rgba(15,125,102,.25)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;padding-top:80px;padding-bottom:80px}
+.hero h1{font-size:clamp(34px,4.6vw,50px);line-height:1.1;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--green)}
+.hero .sub{font-size:17px;color:var(--muted);max-width:46ch;margin-bottom:32px}
+.hero .cta-note{font-size:13.5px;color:var(--subtle);margin-top:14px}
+
+/* dashboard mock */
+.mock{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--card-sh);padding:22px;user-select:none}
+.mock-head{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+.mock-head .t{font-weight:600;font-size:14px}
+.mock-head .chip{margin-left:auto;font-size:11px;font-weight:700;color:var(--ok);background:var(--ok-bg);border-radius:999px;padding:2px 10px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.kpi{border:1px solid var(--line);border-radius:11px;padding:12px 13px;background:linear-gradient(180deg,#f7faf8,#fff)}
+.kpi .l{font-size:11px;color:var(--muted);font-weight:600}
+.kpi .v{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin-top:4px}
+.kpi .m{font-size:11px;color:var(--ok);margin-top:2px;font-weight:600}
+.chart{display:flex;align-items:flex-end;gap:7px;height:88px;border:1px solid var(--line);border-radius:11px;padding:12px 14px 10px;background:#fff}
+.chart b{flex:1;background:linear-gradient(180deg,#2aa287,var(--green));border-radius:4px 4px 2px 2px;opacity:.9}
+.chart-cap{font-size:11px;color:var(--subtle);margin-top:8px;text-align:right}
+
+/* showcase */
+.show{padding-top:8px;padding-bottom:84px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.show-card{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--card-sh);padding:26px}
+.show-card h3{font-size:19px;margin-bottom:8px}
+.show-card>p{font-size:14.5px;color:var(--muted);margin-bottom:20px;max-width:44ch}
+.mini{border:1px solid var(--line);border-radius:11px;overflow:hidden;font-size:12.5px}
+.mini .row{display:flex;align-items:center;gap:10px;padding:9px 13px;border-top:1px solid var(--line);background:#fff}
+.mini .row:first-child{border-top:none;background:#f7faf8;font-weight:600;color:var(--muted);font-size:11.5px}
+.mini .amt{margin-left:auto;font-weight:600;font-variant-numeric:tabular-nums}
+.mini .tag{font-size:10.5px;font-weight:700;border-radius:999px;padding:1px 8px;background:var(--green-tint);color:var(--green)}
+.mini .tag.ok{background:var(--ok-bg);color:var(--ok)}
+.file{display:flex;align-items:center;gap:10px;border:1px dashed #cfd8d2;border-radius:11px;padding:11px 13px;font-size:13px;color:var(--muted);margin-bottom:10px;background:#fbfdfc}
+.file svg{width:17px;height:17px;stroke:var(--green);fill:none;stroke-width:1.8}
+.arrow{display:flex;justify-content:center;color:var(--subtle);margin:6px 0;font-size:15px}
+
+/* other capabilities line */
+.also{padding-bottom:84px}
+.also p{text-align:center;font-size:14px;color:var(--muted)}
+.also b{color:var(--text);font-weight:600}
+
+/* bottom CTA */
+.cta{border-top:1px solid var(--line);background:linear-gradient(180deg,#f4f9f6,var(--canvas));text-align:center;padding:76px 24px}
+.cta h2{font-size:clamp(26px,3.4vw,34px);margin-bottom:10px}
+.cta p{color:var(--muted);font-size:16px;margin-bottom:30px}
+
+/* footer */
+footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13.5px;color:var(--subtle)}
+.foot{display:flex;gap:20px;flex-wrap:wrap}
+.foot .sp{flex:1}
+.foot a:hover{color:var(--text)}
+
+/* contact dialog */
+dialog{border:none;border-radius:16px;padding:0;margin:auto;max-width:440px;width:calc(100% - 40px);box-shadow:0 24px 70px rgba(14,26,22,.25)}
+dialog::backdrop{background:rgba(14,26,22,.45)}
+.dlg{padding:28px}
+.dlg-head{display:flex;align-items:flex-start;margin-bottom:6px}
+.dlg-head h3{font-size:22px}
+.dlg-head button{margin-left:auto;background:none;border:none;font-size:22px;line-height:1;color:var(--subtle);cursor:pointer;padding:2px 6px;border-radius:6px}
+.dlg-head button:hover{color:var(--text);background:#f0f3f0}
+.dlg-sub{font-size:14px;color:var(--muted);margin-bottom:20px}
+.dlg form{display:flex;flex-direction:column;gap:14px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field textarea{width:100%;background:#fff;border:1px solid #d6dcd5;border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14.5px;color:var(--text)}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,125,102,.12)}
+.field textarea{min-height:96px;resize:vertical}
+.dlg .btn{font-size:15px;padding:12px 24px}
+.dlg-alt{font-size:13px;color:var(--subtle);margin-top:16px}
+.dlg-alt a{color:var(--green);font-weight:600}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;gap:40px;padding-top:52px;padding-bottom:56px}
+  .show{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a class="logo" href="#"><span class="mark">T</span> Tawil Tech</a>
+    <span class="sp"></span>
+    <button class="btn btn-nav" onclick="openContact()">Contact us</button>
+  </div>
+</nav>
+
+<header class="wrap hero">
+  <div>
+    <h1>Property management software that <em>runs the books itself.</em></h1>
+    <p class="sub">Leasing, rent collection, maintenance, and reporting for landlords and property managers — on a real double-entry ledger, with the bookkeeping automated.</p>
+    <button class="btn btn-big" onclick="openContact()">Contact us</button>
+    <div class="cta-note">Tell us about your portfolio — we'll show you the platform live.</div>
+  </div>
+
+  <div class="mock" aria-hidden="true">
+    <div class="mock-head"><span class="t">Portfolio overview</span><span class="chip">July</span></div>
+    <div class="kpis">
+      <div class="kpi"><div class="l">Occupancy</div><div class="v">96%</div><div class="m">+2% vs June</div></div>
+      <div class="kpi"><div class="l">Rent collected</div><div class="v">$412k</div><div class="m">98% on time</div></div>
+      <div class="kpi"><div class="l">Open work orders</div><div class="v">7</div><div class="m">3 due today</div></div>
+    </div>
+    <div class="chart">
+      <b style="height:46%"></b><b style="height:58%"></b><b style="height:52%"></b><b style="height:66%"></b><b style="height:74%"></b><b style="height:70%"></b><b style="height:86%"></b>
+    </div>
+    <div class="chart-cap">Net operating income, trailing 7 months</div>
+  </div>
+</header>
+
+<section class="wrap show">
+  <div class="show-card">
+    <h3>Bookkeeping that does itself</h3>
+    <p>Rent bills monthly on its own, payments post and allocate automatically, and every dollar lands as a balanced entry on a real general ledger.</p>
+    <div class="mini" aria-hidden="true">
+      <div class="row"><span>This month</span><span class="amt">Status</span></div>
+      <div class="row"><span>Rent charges posted</span><span class="amt">$428,300</span><span class="tag ok">Posted</span></div>
+      <div class="row"><span>Payments received &amp; matched</span><span class="amt">$412,150</span><span class="tag ok">Allocated</span></div>
+      <div class="row"><span>Bank transactions reconciled</span><span class="amt">96%</span><span class="tag">Auto</span></div>
+    </div>
+  </div>
+
+  <div class="show-card">
+    <h3>Invoices read themselves</h3>
+    <p>Upload any vendor bill. Line items, amounts, and expense categories are extracted with AI and posted to the ledger — no data entry.</p>
+    <div aria-hidden="true">
+      <div class="file"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7zM14 3v5h5"/></svg> plumbing-invoice.pdf — uploaded</div>
+      <div class="arrow">↓</div>
+      <div class="mini">
+        <div class="row"><span>Extracted line items</span><span class="amt">Amount</span></div>
+        <div class="row"><span>Water heater replacement</span><span class="amt">$1,180.00</span><span class="tag">Repairs</span></div>
+        <div class="row"><span>Service call</span><span class="amt">$95.00</span><span class="tag">Repairs</span></div>
+        <div class="row"><span>Posted to ledger</span><span class="amt">$1,275.00</span><span class="tag ok">Balanced</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap also">
+  <p><b>Also included:</b> online rent payments · bank reconciliation · owner statements &amp; draws · tenant portal · maintenance &amp; work orders · e-signature leases · board-ready reports</p>
+</div>
+
+<div class="cta">
+  <h2>See it on your portfolio.</h2>
+  <p>Questions, pricing, or a live walkthrough — send us a note.</p>
+  <button class="btn btn-big" onclick="openContact()">Contact us</button>
+</div>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Tawil Technologies LLC · Brooklyn, NY</span>
+    <span class="sp"></span>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+  </div>
+</footer>
+
+<dialog id="contactDlg" aria-label="Contact form">
+  <div class="dlg">
+    <div class="dlg-head"><h3>Contact us</h3><button type="button" onclick="document.getElementById('contactDlg').close()" aria-label="Close">×</button></div>
+    <p class="dlg-sub">Tell us a bit about your portfolio and we'll get back to you within a business day.</p>
+    <form action="https://formsubmit.co/jakeytawil18@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="Inquiry — Tawil Tech website" />
+      <input type="hidden" name="_captcha" value="false" />
+      <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" required autocomplete="name" /></div>
+      <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" required autocomplete="email" /></div>
+      <div class="field"><label for="f-msg">Message</label><textarea id="f-msg" name="message" placeholder="e.g. 40 units across 3 buildings — currently on spreadsheets"></textarea></div>
+      <button class="btn" type="submit">Send message</button>
+    </form>
+    <p class="dlg-alt">Or email us directly: <a href="mailto:jakeytawil18@gmail.com">jakeytawil18@gmail.com</a></p>
+  </div>
+</dialog>
+
+<script>
+const dlg = document.getElementById('contactDlg');
+function openContact(){ dlg.showModal(); document.getElementById('f-name').focus(); }
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+</script>
+
+</body>
+</html>
