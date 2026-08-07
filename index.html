@@ -41,6 +41,11 @@ a{color:inherit;text-decoration:none}
 .granted{text-align:center;padding:6px 0 2px}
 .granted h3{font-size:24px;font-weight:500;margin:8px 0 6px}
 .granted p{font-size:13.5px;color:var(--ink-soft);margin-bottom:18px}
+.verify{text-align:center;padding:26px 6px 18px}
+.verify .vlabel{font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.vbar{height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.vbar i{display:block;height:100%;width:0;background:var(--brass);transition:width .45s ease}
+.vmark{width:46px;height:46px;border-radius:50%;border:1px solid var(--brass);color:var(--brass);font-size:22px;line-height:44px;margin:0 auto 12px}
 
 /* hero — one phone screen */
 .hero{text-align:center;padding:44px 22px 40px}
@@ -194,11 +199,24 @@ dialog::backdrop{background:rgba(14,27,22,.55)}
         <button class="btn" type="submit" id="a-submit">Request access</button>
       </form>
     </div>
+    <div id="accessVerify" hidden>
+      <div class="dlg-head"><div><span class="eyebrow">Tawil Technologies</span></div></div>
+      <div class="verify">
+        <div id="v-checking">
+          <p class="vlabel">Reviewing your request</p>
+          <div class="vbar"><i id="v-fill"></i></div>
+        </div>
+        <div id="v-done" hidden>
+          <div class="vmark">✓</div>
+          <p class="vlabel">Verified</p>
+        </div>
+      </div>
+    </div>
     <div id="accessGranted" hidden>
       <div class="dlg-head"><div><span class="eyebrow">Tawil Technologies</span></div><button type="button" onclick="document.getElementById('accessDlg').close()" aria-label="Close">×</button></div>
       <div class="granted">
         <h3>Welcome — your access is ready.</h3>
-        <p>A copy has been sent to your email.</p>
+        <p>Best experienced on a computer. A copy has been sent to your email.</p>
         <a class="btn" href="https://tawiltech.netlify.app" target="_blank" rel="noopener">Enter the platform →</a>
       </div>
     </div>
@@ -214,18 +232,29 @@ const adlg = document.getElementById('accessDlg');
 function openAccess(){ adlg.showModal(); document.getElementById('a-name').focus(); }
 adlg.addEventListener('click', e => { if (e.target === adlg) adlg.close(); });
 
-function showGranted(){
-  document.getElementById('accessFormWrap').hidden = true;
-  document.getElementById('accessGranted').hidden = false;
+function showAccessPane(id){
+  ['accessFormWrap','accessVerify','accessGranted'].forEach(x => document.getElementById(x).hidden = (x !== id));
+}
+const wait = ms => new Promise(r => setTimeout(r, ms));
+
+async function runVerifyBar(){
+  document.getElementById('v-checking').hidden = false;
+  document.getElementById('v-done').hidden = true;
+  const fill = document.getElementById('v-fill');
+  fill.style.width = '0';
+  showAccessPane('accessVerify');
+  for (const [ms, w] of [[150,'14%'],[550,'37%'],[600,'58%'],[750,'81%'],[650,'94%'],[400,'100%']]){
+    await wait(ms); fill.style.width = w;
+  }
+  await wait(450);
+}
+async function showVerified(){
+  document.getElementById('v-checking').hidden = true;
+  document.getElementById('v-done').hidden = false;
+  await wait(950);
 }
 
-document.getElementById('accessForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = document.getElementById('a-submit');
-  const err = document.getElementById('a-err');
-  err.hidden = true;
-  if (document.getElementById('a-company').value){ showGranted(); return; }
-  btn.disabled = true; btn.textContent = 'Requesting…';
+async function sendAccessRequest(){
   try {
     const res = await fetch('https://formsubmit.co/ajax/jacob@tawiltechnologies.com', {
       method: 'POST',
@@ -234,18 +263,30 @@ document.getElementById('accessForm').addEventListener('submit', async e => {
         _subject: 'Demo access requested — tawiltechnologies.com',
         _template: 'table',
         _captcha: 'false',
-        _autoresponse: 'Welcome — here is your private access to the Tawil platform: https://tawiltech.netlify.app\n\nWe would love to hear what you think — reply to this email any time.\n\n— Jacob Tawil, Tawil Technologies',
+        _autoresponse: 'Welcome — here is your private access to the Tawil platform: https://tawiltech.netlify.app\n\nThe demo is best experienced on a computer.\n\nWe would love to hear what you think — reply to this email any time.\n\n— Jacob Tawil, Tawil Technologies',
         name: document.getElementById('a-name').value,
         email: document.getElementById('a-email').value,
         portfolio: document.getElementById('a-portfolio').value
       })
     });
-    if (!res.ok) throw new Error('send failed');
-    showGranted();
+    return res.ok;
   } catch {
+    return false;
+  }
+}
+
+document.getElementById('accessForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = document.getElementById('a-err');
+  err.hidden = true;
+  const isBot = !!document.getElementById('a-company').value;
+  const [ok] = await Promise.all([isBot ? Promise.resolve(true) : sendAccessRequest(), runVerifyBar()]);
+  if (ok){
+    await showVerified();
+    showAccessPane('accessGranted');
+  } else {
+    showAccessPane('accessFormWrap');
     err.hidden = false;
-  } finally {
-    btn.disabled = false; btn.textContent = 'Request access';
   }
 });
 </script>
