@@ -33,6 +33,14 @@ a{color:inherit;text-decoration:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;font-family:inherit;font-size:14px;font-weight:600;letter-spacing:.03em;color:var(--ivory);background:var(--pine);border:1px solid var(--pine);border-radius:2px;padding:12px 26px;cursor:pointer;transition:background .18s}
 .btn:hover{background:var(--pine-2)}
 .btn-sm{padding:9px 18px;font-size:13px}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--brass)}
+.btn-outline:hover{background:var(--pine);color:var(--ivory)}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.form-err{font-size:13px;color:#a03c2e;margin-top:2px}
+.granted{text-align:center;padding:6px 0 2px}
+.granted h3{font-size:24px;font-weight:500;margin:8px 0 6px}
+.granted p{font-size:13.5px;color:var(--ink-soft);margin-bottom:18px}
 
 /* hero — one phone screen */
 .hero{text-align:center;padding:44px 22px 40px}
@@ -105,7 +113,10 @@ dialog::backdrop{background:rgba(14,27,22,.55)}
   <span class="eyebrow">Tawil Technologies</span>
   <h1>Property management, <em>done right.</em></h1>
   <p>A private platform for serious portfolios — real accounting, operations automated by AI, and reporting built around the way you own.</p>
-  <button class="btn" onclick="openContact()">Contact us</button>
+  <div class="cta-row">
+    <button class="btn btn-outline" onclick="openAccess()">Request private access</button>
+    <button class="btn" onclick="openContact()">Contact us</button>
+  </div>
 </header>
 
 <section class="wrap pillars">
@@ -138,7 +149,10 @@ dialog::backdrop{background:rgba(14,27,22,.55)}
 <section class="close">
   <h2>See it on <em>your</em> portfolio.</h2>
   <p>A quiet conversation about your buildings and your books. We reply within one business day.</p>
-  <button class="btn" onclick="openContact()">Contact us</button>
+  <div class="cta-row">
+    <button class="btn btn-outline" onclick="openAccess()">Request private access</button>
+    <button class="btn" onclick="openContact()">Contact us</button>
+  </div>
 </section>
 
 <footer class="wrap">
@@ -166,10 +180,39 @@ dialog::backdrop{background:rgba(14,27,22,.55)}
   </div>
 </dialog>
 
+<dialog id="accessDlg" aria-label="Request private access">
+  <div class="dlg">
+    <div id="accessFormWrap">
+      <div class="dlg-head"><div><span class="eyebrow">Tawil Technologies</span><h3>Request a private viewing</h3></div><button type="button" onclick="document.getElementById('accessDlg').close()" aria-label="Close">×</button></div>
+      <p class="dlg-sub">Access is granted personally. Tell us who you are and your invitation will be on its way.</p>
+      <form id="accessForm">
+        <div class="field"><label for="a-name">Name</label><input id="a-name" name="name" required autocomplete="name" /></div>
+        <div class="field"><label for="a-email">Email</label><input id="a-email" name="email" type="email" required autocomplete="email" /></div>
+        <div class="field"><label for="a-portfolio">Your portfolio</label><textarea id="a-portfolio" name="portfolio" placeholder="e.g. 120 units across four buildings"></textarea></div>
+        <div class="hp" aria-hidden="true"><label for="a-company">Company</label><input id="a-company" name="company" tabindex="-1" autocomplete="off" /></div>
+        <p class="form-err" id="a-err" hidden>Something went wrong — please try again, or write us at jacob@tawiltechnologies.com.</p>
+        <button class="btn" type="submit" id="a-submit">Request access</button>
+      </form>
+    </div>
+    <div id="accessGranted" hidden>
+      <div class="dlg-head"><div><span class="eyebrow">Tawil Technologies</span></div><button type="button" onclick="document.getElementById('accessDlg').close()" aria-label="Close">×</button></div>
+      <div class="granted">
+        <h3>Welcome — your access is ready.</h3>
+        <p>A copy has been sent to your email.</p>
+        <a class="btn" href="https://tawiltech.netlify.app" target="_blank" rel="noopener">Enter the platform →</a>
+      </div>
+    </div>
+  </div>
+</dialog>
+
 <script>
 const dlg = document.getElementById('contactDlg');
 function openContact(){ dlg.showModal(); document.getElementById('f-name').focus(); }
 dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+const adlg = document.getElementById('accessDlg');
+function openAccess(){ adlg.showModal(); document.getElementById('a-name').focus(); }
+adlg.addEventListener('click', e => { if (e.target === adlg) adlg.close(); });
 </script>
 
 </body>
