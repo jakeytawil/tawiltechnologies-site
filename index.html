@@ -213,6 +213,41 @@ dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 const adlg = document.getElementById('accessDlg');
 function openAccess(){ adlg.showModal(); document.getElementById('a-name').focus(); }
 adlg.addEventListener('click', e => { if (e.target === adlg) adlg.close(); });
+
+function showGranted(){
+  document.getElementById('accessFormWrap').hidden = true;
+  document.getElementById('accessGranted').hidden = false;
+}
+
+document.getElementById('accessForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = document.getElementById('a-submit');
+  const err = document.getElementById('a-err');
+  err.hidden = true;
+  if (document.getElementById('a-company').value){ showGranted(); return; }
+  btn.disabled = true; btn.textContent = 'Requesting…';
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/jacob@tawiltechnologies.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Demo access requested — tawiltechnologies.com',
+        _template: 'table',
+        _captcha: 'false',
+        _autoresponse: 'Welcome — here is your private access to the Tawil platform: https://tawiltech.netlify.app\n\nWe would love to hear what you think — reply to this email any time.\n\n— Jacob Tawil, Tawil Technologies',
+        name: document.getElementById('a-name').value,
+        email: document.getElementById('a-email').value,
+        portfolio: document.getElementById('a-portfolio').value
+      })
+    });
+    if (!res.ok) throw new Error('send failed');
+    showGranted();
+  } catch {
+    err.hidden = false;
+  } finally {
+    btn.disabled = false; btn.textContent = 'Request access';
+  }
+});
 </script>
 
 </body>
